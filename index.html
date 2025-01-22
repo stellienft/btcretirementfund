@@ -4,40 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexus Capital Retirement Fund</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
 </head>
-<body>
-    <header>
-        <h1>Nexus Capital Retirement Fund</h1>
-        <p>Bitcoin DCA Strategy: January 2025 - January 2035</p>
-    </header>
+<body class="bg-gray-100">
+    <!-- Navigation Menu -->
+    <nav class="bg-blue-600 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Nexus Capital Retirement Fund</h1>
+            <ul class="flex space-x-4">
+                <li><a href="#dashboard" class="hover:text-blue-200">Dashboard</a></li>
+                <li><a href="#dca-table" class="hover:text-blue-200">DCA Table</a></li>
+                <li><a href="#wallet" class="hover:text-blue-200">Wallet</a></li>
+            </ul>
+        </div>
+    </nav>
 
-    <section class="participants">
-        <h2>Participants</h2>
-        <ul id="participant-list">
-            <!-- Participants will be dynamically added here -->
-        </ul>
-        <button id="add-participant">Add Participant</button>
+    <!-- Dashboard -->
+    <section id="dashboard" class="container mx-auto p-4">
+        <h2 class="text-2xl font-bold mb-4">Dashboard</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold mb-4">Total Contributions</h3>
+                <canvas id="contributionsChart"></canvas>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold mb-4">Wallet Balance</h3>
+                <p id="walletBalance" class="text-3xl font-bold">Loading...</p>
+            </div>
+        </div>
     </section>
 
-    <section class="dca-table">
-        <h2>Dollar Cost Averaging (DCA) Table</h2>
-        <table id="dca-table">
-            <thead>
-                <tr>
-                    <th>Month</th>
-                    <!-- Participant columns will be dynamically added here -->
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Rows for each month will be dynamically added here -->
-            </tbody>
-        </table>
+    <!-- DCA Table -->
+    <section id="dca-table" class="container mx-auto p-4">
+        <h2 class="text-2xl font-bold mb-4">DCA Table</h2>
+        <div class="overflow-x-auto bg-white rounded-lg shadow-md">
+            <table class="min-w-full">
+                <thead>
+                    <tr class="bg-blue-600 text-white">
+                        <th class="p-3">Month</th>
+                        <!-- Participant columns will be dynamically added here -->
+                    </tr>
+                </thead>
+                <tbody id="dcaTableBody">
+                    <!-- Rows for each month will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+        <button id="addParticipant" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Add Participant</button>
     </section>
 
-    <footer>
-        <p>&copy; 2023 Nexus Capital Retirement Fund</p>
-    </footer>
+    <!-- Wallet Integration -->
+    <section id="wallet" class="container mx-auto p-4">
+        <h2 class="text-2xl font-bold mb-4">Wallet Integration</h2>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <button id="connectWallet" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Connect Wallet</button>
+            <p id="walletAddress" class="mt-4 text-gray-700"></p>
+        </div>
+    </section>
 
     <script src="script.js"></script>
 </body>
