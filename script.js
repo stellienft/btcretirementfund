@@ -77,13 +77,13 @@ function renderDcaTable(year) {
     const months = generateMonths(startDate, endDate);
 
     dcaTableBody.innerHTML = months.map(month => `
-        <tr class="border-b hover:bg-gray-50">
+        <tr class="border-b">
             <td class="p-2">${month}</td>
             ${participants.map((name, participantIndex) => `
                 <td class="p-2">
                     <button
                         onclick="toggleContribution('${month}', ${participantIndex})"
-                        class="w-full py-1 rounded-lg ${dcaData[month]?.[participantIndex] ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'} hover-scale"
+                        class="w-full py-1 rounded-lg ${dcaData[month]?.[participantIndex] ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-700'} hover-scale"
                     >
                         ${shortenName(name)}
                     </button>
