@@ -137,10 +137,4 @@ function generateMonths(start, end) {
 // Initial render
 renderParticipants();
 renderDcaTable();
-updateTotalInvested();
-updateNumberOfMembers();
-
-// Re-render table on window resize (for responsive name shortening)
-window.addEventListener('resize', () => {
-    renderDcaTable();
-});
+update
