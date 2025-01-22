@@ -62,6 +62,9 @@
             .desktop-menu {
                 display: none;
             }
+            .business-name {
+                font-size: 1.25rem; /* Smaller font size for mobile */
+            }
         }
     </style>
 </head>
@@ -69,7 +72,7 @@
     <!-- Navigation Menu -->
     <nav class="gradient-bg text-white p-4 shadow-lg">
         <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold">Nexus Capital Retirement Fund</h1>
+            <h1 class="text-2xl font-bold business-name">Nexus Capital Retirement Fund</h1>
             <!-- Desktop Menu -->
             <div class="desktop-menu space-x-4">
                 <a href="https://coinstats.app/address/38r4YWLR7qnye7a86jgXx2cs6gZFtZGC65/" target="_blank" class="hover:text-blue-200">Coinstats</a>
@@ -83,13 +86,14 @@
                 </svg>
             </button>
         </div>
-        <!-- Mobile Menu Links -->
-        <div id="mobile-menu-links" class="mobile-menu hidden mt-2 space-y-2">
-            <a href="https://coinstats.app/address/38r4YWLR7qnye7a86jgXx2cs6gZFtZGC65/" target="_blank" class="block p-2 hover:bg-blue-700">Coinstats</a>
-            <a href="https://portal.stellio.com.au/work/folders/fo_a33813a59525edfa12f1d68c" target="_blank" class="block p-2 hover:bg-blue-700">Portal</a>
-            <a href="https://t.me/NexusCapitalAU" target="_blank" class="block p-2 hover:bg-blue-700">Telegram</a>
-        </div>
     </nav>
+
+    <!-- Mobile Menu Links -->
+    <div id="mobile-menu-links" class="mobile-menu hidden bg-blue-600 p-2">
+        <a href="https://coinstats.app/address/38r4YWLR7qnye7a86jgXx2cs6gZFtZGC65/" target="_blank" class="block p-2 hover:bg-blue-700">Coinstats</a>
+        <a href="https://portal.stellio.com.au/work/folders/fo_a33813a59525edfa12f1d68c" target="_blank" class="block p-2 hover:bg-blue-700">Portal</a>
+        <a href="https://t.me/NexusCapitalAU" target="_blank" class="block p-2 hover:bg-blue-700">Telegram</a>
+    </div>
 
     <!-- Main Content -->
     <main class="container mx-auto p-4">
