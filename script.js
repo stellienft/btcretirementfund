@@ -10,6 +10,7 @@ const totalInvestedElement = document.getElementById('total-invested');
 const numberOfMembersElement = document.getElementById('number-of-members');
 const toggleParticipantsButton = document.getElementById('toggle-participants');
 const participantsSection = document.getElementById('participants-section');
+const yearTabsContainer = document.querySelector('.flex.space-x-2.mb-4');
 
 // Debugging: Log initial data
 console.log('Participants:', participants);
@@ -51,9 +52,30 @@ function shortenName(name) {
     return lastName ? `${firstName} ${lastName.charAt(0)}.` : firstName;
 }
 
-// Render DCA table
-function renderDcaTable() {
-    const months = generateMonths('January 2025', 'January 2035');
+// Render year tabs
+function renderYearTabs() {
+    yearTabsContainer.innerHTML = Array.from({ length: 10 }, (_, i) => `
+        <div class="year-tab ${i === 0 ? 'active' : ''}" data-year="${i + 1}">
+            Year ${i + 1}
+        </div>
+    `).join('');
+
+    // Add event listeners to year tabs
+    document.querySelectorAll('.year-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.year-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            renderDcaTable(parseInt(tab.getAttribute('data-year')));
+        });
+    });
+}
+
+// Render DCA table for a specific year
+function renderDcaTable(year) {
+    const startDate = new Date(`January ${2024 + year}`);
+    const endDate = new Date(`December ${2024 + year}`);
+    const months = generateMonths(startDate, endDate);
+
     dcaTableBody.innerHTML = months.map(month => `
         <tr class="border-b hover:bg-gray-50">
             <td class="p-2">${month}</td>
@@ -78,7 +100,8 @@ addParticipantButton.addEventListener('click', () => {
         participants.push(name);
         localStorage.setItem('participants', JSON.stringify(participants));
         renderParticipants();
-        renderDcaTable();
+        renderYearTabs();
+        renderDcaTable(1); // Default to Year 1
         updateNumberOfMembers();
     }
 });
@@ -90,7 +113,7 @@ function editParticipant(index) {
         participants[index] = newName;
         localStorage.setItem('participants', JSON.stringify(participants));
         renderParticipants();
-        renderDcaTable();
+        renderDcaTable(1); // Default to Year 1
     }
 }
 
@@ -99,7 +122,7 @@ function removeParticipant(index) {
     participants.splice(index, 1);
     localStorage.setItem('participants', JSON.stringify(participants));
     renderParticipants();
-    renderDcaTable();
+    renderDcaTable(1); // Default to Year 1
     updateNumberOfMembers();
 }
 
@@ -108,7 +131,7 @@ function toggleContribution(month, participantIndex) {
     if (!dcaData[month]) dcaData[month] = {};
     dcaData[month][participantIndex] = !dcaData[month][participantIndex];
     localStorage.setItem('dcaData', JSON.stringify(dcaData));
-    renderDcaTable();
+    renderDcaTable(1); // Default to Year 1
     updateTotalInvested();
 }
 
@@ -122,19 +145,23 @@ function updateTotalInvested() {
 
 // Generate months between two dates
 function generateMonths(start, end) {
-    const startDate = new Date(start);
-    const endDate = new Date(end);
     const months = [];
-
-    while (startDate <= endDate) {
-        months.push(new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long' }).format(startDate));
-        startDate.setMonth(startDate.getMonth() + 1);
+    while (start <= end) {
+        months.push(new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long' }).format(start));
+        start.setMonth(start.getMonth() + 1);
     }
-
     return months;
 }
 
 // Initial render
 renderParticipants();
-renderDcaTable();
-update
+renderYearTabs();
+renderDcaTable(1); // Default to Year 1
+updateTotalInvested();
+updateNumberOfMembers();
+
+// Re-render table on window resize (for responsive name shortening)
+window.addEventListener('resize', () => {
+    const activeYear = document.querySelector('.year-tab.active').getAttribute('data-year');
+    renderDcaTable(parseInt(activeYear));
+});
