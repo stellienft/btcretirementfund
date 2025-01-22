@@ -7,21 +7,13 @@ const participantList = document.getElementById('participant-list');
 const addParticipantButton = document.getElementById('add-participant');
 const dcaTableBody = document.getElementById('dca-table-body');
 const totalInvestedElement = document.getElementById('total-invested');
-const bitcoinPriceElement = document.getElementById('bitcoin-price');
 const numberOfMembersElement = document.getElementById('number-of-members');
 const toggleParticipantsButton = document.getElementById('toggle-participants');
 const participantsSection = document.getElementById('participants-section');
 
-// Fetch Bitcoin price
-async function fetchBitcoinPrice() {
-    try {
-        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=aud');
-        const data = await response.json();
-        bitcoinPriceElement.textContent = `$${data.bitcoin.aud} AUD`;
-    } catch (error) {
-        bitcoinPriceElement.textContent = 'Failed to fetch';
-    }
-}
+// Debugging: Log initial data
+console.log('Participants:', participants);
+console.log('DCA Data:', dcaData);
 
 // Update number of members
 function updateNumberOfMembers() {
@@ -134,7 +126,6 @@ function generateMonths(start, end) {
 }
 
 // Initial render
-fetchBitcoinPrice();
 renderParticipants();
 renderDcaTable();
 updateTotalInvested();
