@@ -72,4 +72,70 @@ function renderDcaTable() {
 
 // Add a new participant
 addParticipantButton.addEventListener('click', () => {
-    const name = prompt('Enter the name of
+    const name = prompt('Enter the name of the new participant:');
+    if (name) {
+        participants.push(name);
+        localStorage.setItem('participants', JSON.stringify(participants));
+        renderParticipants();
+        renderDcaTable();
+        updateNumberOfMembers();
+    }
+});
+
+// Edit a participant's name
+function editParticipant(index) {
+    const newName = prompt('Enter the new name for this participant:');
+    if (newName) {
+        participants[index] = newName;
+        localStorage.setItem('participants', JSON.stringify(participants));
+        renderParticipants();
+        renderDcaTable();
+    }
+}
+
+// Remove a participant
+function removeParticipant(index) {
+    participants.splice(index, 1);
+    localStorage.setItem('participants', JSON.stringify(participants));
+    renderParticipants();
+    renderDcaTable();
+    updateNumberOfMembers();
+}
+
+// Toggle contribution
+function toggleContribution(month, participantIndex) {
+    if (!dcaData[month]) dcaData[month] = {};
+    dcaData[month][participantIndex] = !dcaData[month][participantIndex];
+    localStorage.setItem('dcaData', JSON.stringify(dcaData));
+    renderDcaTable();
+    updateTotalInvested();
+}
+
+// Update total invested
+function updateTotalInvested() {
+    const totalClicks = Object.values(dcaData).reduce((sum, month) => {
+        return sum + Object.values(month).filter(Boolean).length;
+    }, 0);
+    totalInvestedElement.textContent = `$${totalClicks * 100} AUD`;
+}
+
+// Generate months between two dates
+function generateMonths(start, end) {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    const months = [];
+
+    while (startDate <= endDate) {
+        months.push(new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long' }).format(startDate));
+        startDate.setMonth(startDate.getMonth() + 1);
+    }
+
+    return months;
+}
+
+// Initial render
+fetchBitcoinPrice();
+renderParticipants();
+renderDcaTable();
+updateTotalInvested();
+updateNumberOfMembers();
