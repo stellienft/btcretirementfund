@@ -59,7 +59,7 @@
             <button id="toggle-participants" class="gradient-bg text-white px-4 py-2 rounded-lg hover-scale shadow-md">
                 Show/Hide Participants
             </button>
-            <div id="participants-section" class="bg-white p-6 rounded-lg shadow-md mt-4 hidden">
+            <div id="participants-section" class="bg-white p-6 rounded-lg shadow-md mt-4">
                 <h2 class="text-2xl font-bold mb-4">Participants</h2>
                 <ul id="participant-list" class="space-y-2">
                     <!-- Participants will be dynamically added here -->
@@ -84,4 +84,30 @@
                 </div>
                 <div>
                     <p class="text-lg">Number of Members:</p>
-                    <p class="text-2xl font-bold text-blue-600" id
+                    <p class="text-2xl font-bold text-blue-600" id="number-of-members">0</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- DCA Table -->
+        <section>
+            <h2 class="text-2xl font-bold mb-4">DCA Table</h2>
+            <div class="overflow-x-auto bg-white rounded-lg shadow-md">
+                <table class="min-w-full">
+                    <thead>
+                        <tr class="gradient-bg text-white">
+                            <th class="p-2">Month</th>
+                            <!-- Participant columns will be dynamically added here -->
+                        </tr>
+                    </thead>
+                    <tbody id="dca-table-body">
+                        <!-- Rows for each month will be dynamically added here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
