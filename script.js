@@ -1,14 +1,23 @@
 // Initialize participants and DCA data
-let participants = JSON.parse(localStorage.getItem('participants')) || ['Person 1', 'Person 2', 'Person 3', 'Person 4', 'Person 5', 'Person 6', 'Person 7', 'Person 8'];
+let participants = JSON.parse(localStorage.getItem('participants')) || ['Person 1', 'Person 2', 'Person 3', 'Person 4'];
 let dcaData = JSON.parse(localStorage.getItem('dcaData')) || {};
 
 // DOM Elements
 const participantList = document.getElementById('participant-list');
-const addParticipantButton = document.getElementById('addParticipant');
-const dcaTableBody = document.getElementById('dcaTableBody');
-const connectWalletButton = document.getElementById('connectWallet');
-const walletAddressElement = document.getElementById('walletAddress');
-const walletBalanceElement = document.getElementById('walletBalance');
+const addParticipantButton = document.getElementById('add-participant');
+const dcaTableBody = document.getElementById('dca-table-body');
+
+// Render participants
+function renderParticipants() {
+    participantList.innerHTML = participants.map((name, index) => `
+        <li class="flex justify-between items-center">
+            <span>${name}</span>
+            <button onclick="removeParticipant(${index})" class="text-red-600 hover:text-red-800">
+                Remove
+            </button>
+        </li>
+    `).join('');
+}
 
 // Render DCA table
 function renderDcaTable() {
@@ -16,16 +25,14 @@ function renderDcaTable() {
     dcaTableBody.innerHTML = months.map(month => `
         <tr class="border-b">
             <td class="p-3">${month}</td>
-            ${participants.map((_, participantIndex) => `
+            ${participants.map((name, participantIndex) => `
                 <td class="p-3">
-                    <input
-                        type="checkbox"
-                        data-month="${month}"
-                        data-participant="${participantIndex}"
-                        ${dcaData[month]?.[participantIndex] ? 'checked' : ''}
-                        onchange="saveCheckboxState(event)"
-                        class="form-checkbox h-5 w-5 text-blue-600"
+                    <button
+                        onclick="toggleContribution('${month}', ${participantIndex})"
+                        class="w-full py-2 rounded ${dcaData[month]?.[participantIndex] ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
                     >
+                        ${name}
+                    </button>
                 </td>
             `).join('')}
         </tr>
@@ -38,21 +45,25 @@ addParticipantButton.addEventListener('click', () => {
     if (name) {
         participants.push(name);
         localStorage.setItem('participants', JSON.stringify(participants));
+        renderParticipants();
         renderDcaTable();
     }
 });
 
-// Save checkbox state
-function saveCheckboxState(event) {
-    const checkbox = event.target;
-    const month = checkbox.getAttribute('data-month');
-    const participantIndex = checkbox.getAttribute('data-participant');
+// Remove a participant
+function removeParticipant(index) {
+    participants.splice(index, 1);
+    localStorage.setItem('participants', JSON.stringify(participants));
+    renderParticipants();
+    renderDcaTable();
+}
 
+// Toggle contribution
+function toggleContribution(month, participantIndex) {
     if (!dcaData[month]) dcaData[month] = {};
-    dcaData[month][participantIndex] = checkbox.checked;
-
+    dcaData[month][participantIndex] = !dcaData[month][participantIndex];
     localStorage.setItem('dcaData', JSON.stringify(dcaData));
-    updateChart();
+    renderDcaTable();
 }
 
 // Generate months between two dates
@@ -69,59 +80,6 @@ function generateMonths(start, end) {
     return months;
 }
 
-// Wallet Integration
-connectWalletButton.addEventListener('click', async () => {
-    if (window.ethereum) {
-        try {
-            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-            walletAddressElement.textContent = `Connected: ${accounts[0]}`;
-            fetchWalletBalance(accounts[0]);
-        } catch (err) {
-            console.error(err);
-        }
-    } else {
-        alert('Please install MetaMask!');
-    }
-});
-
-// Fetch wallet balance
-async function fetchWalletBalance(address) {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const balance = await provider.getBalance(address);
-    walletBalanceElement.textContent = `${ethers.utils.formatEther(balance)} ETH`;
-}
-
-// Analytics Chart
-const contributionsChart = new Chart(document.getElementById('contributionsChart'), {
-    type: 'bar',
-    data: {
-        labels: generateMonths('January 2025', 'January 2035'),
-        datasets: [{
-            label: 'Contributions',
-            data: [],
-            backgroundColor: 'rgba(37, 99, 235, 0.6)',
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
-
-function updateChart() {
-    const months = generateMonths('January 2025', 'January 2035');
-    const data = months.map(month => {
-        return participants.reduce((sum, _, participantIndex) => {
-            return sum + (dcaData[month]?.[participantIndex] ? 100 : 0);
-        }, 0);
-    });
-    contributionsChart.data.datasets[0].data = data;
-    contributionsChart.update();
-}
-
 // Initial render
+renderParticipants();
 renderDcaTable();
-updateChart();
