@@ -16,13 +16,33 @@
         .hover-scale:hover {
             transform: scale(1.05);
         }
+        .dark-mode {
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+        .dark-mode .gradient-bg {
+            background: linear-gradient(135deg, #2d3748, #4a5568);
+        }
+        .dark-mode .bg-white {
+            background-color: #2d3748;
+            color: #e2e8f0;
+        }
+        .dark-mode .text-gray-800 {
+            color: #e2e8f0;
+        }
+        .dark-mode .bg-gray-100 {
+            background-color: #4a5568;
+        }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 dark-mode">
     <!-- Navigation Menu -->
     <nav class="gradient-bg text-white p-4 shadow-lg">
         <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-2xl font-bold">Nexus Capital Retirement Fund</h1>
+            <button id="toggle-dark-mode" class="bg-gray-800 text-white px-4 py-2 rounded-lg hover-scale shadow-md">
+                Toggle Dark Mode
+            </button>
         </div>
     </nav>
 
@@ -47,8 +67,19 @@
         <!-- Analytics Section -->
         <section class="mb-8">
             <h2 class="text-2xl font-bold mb-4 text-gray-800">Analytics</h2>
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <p class="text-lg text-gray-700">Total Invested: <span id="total-invested" class="font-bold text-blue-600">$0 AUD</span></p>
+            <div class="bg-white p-6 rounded-lg shadow-md grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <p class="text-lg text-gray-700">Total Invested:</p>
+                    <p class="text-2xl font-bold text-blue-600" id="total-invested">$0 AUD</p>
+                </div>
+                <div>
+                    <p class="text-lg text-gray-700">Bitcoin Price:</p>
+                    <p class="text-2xl font-bold text-blue-600" id="bitcoin-price">Loading...</p>
+                </div>
+                <div>
+                    <p class="text-lg text-gray-700">Number of Members:</p>
+                    <p class="text-2xl font-bold text-blue-600" id="number-of-members">0</p>
+                </div>
             </div>
         </section>
 
@@ -59,7 +90,7 @@
                 <table class="min-w-full">
                     <thead>
                         <tr class="gradient-bg text-white">
-                            <th class="p-3">Month</th>
+                            <th class="p-2">Month</th>
                             <!-- Participant columns will be dynamically added here -->
                         </tr>
                     </thead>
