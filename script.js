@@ -1,5 +1,5 @@
 // Initialize participants and DCA data
-let participants = JSON.parse(localStorage.getItem('participants')) || ['Stellio Koutsis', 'Jarryd Lang', 'Josh Wallace', 'Ivan Vantagiato', 'Scott McManus'];
+let participants = JSON.parse(localStorage.getItem('participants')) || ['Stellio Koutsis', 'Jarryd Lang', 'Josh Wallace'];
 let dcaData = JSON.parse(localStorage.getItem('dcaData')) || {};
 
 // DOM Elements
@@ -12,8 +12,6 @@ const numberOfMembersElement = document.getElementById('number-of-members');
 const toggleParticipantsButton = document.getElementById('toggle-participants');
 const participantsSection = document.getElementById('participants-section');
 const yearTabsContainer = document.querySelector('.flex.space-x-2.mb-4');
-const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-const mobileMenuLinks = document.getElementById('mobile-menu-links');
 
 // Debugging: Log initial data
 console.log('Participants:', participants);
@@ -27,11 +25,6 @@ function updateNumberOfMembers() {
 // Toggle participants section
 toggleParticipantsButton.addEventListener('click', () => {
     participantsSection.classList.toggle('hidden');
-});
-
-// Toggle mobile menu
-mobileMenuToggle.addEventListener('click', () => {
-    mobileMenuLinks.classList.toggle('hidden');
 });
 
 // Render participants
