@@ -6,15 +6,29 @@ let dcaData = JSON.parse(localStorage.getItem('dcaData')) || {};
 const participantList = document.getElementById('participant-list');
 const addParticipantButton = document.getElementById('add-participant');
 const dcaTableBody = document.getElementById('dca-table-body');
+const walletAddressInput = document.getElementById('wallet-address');
+
+// Load saved wallet address
+walletAddressInput.value = localStorage.getItem('walletAddress') || '';
+
+// Save wallet address on input change
+walletAddressInput.addEventListener('input', () => {
+    localStorage.setItem('walletAddress', walletAddressInput.value);
+});
 
 // Render participants
 function renderParticipants() {
     participantList.innerHTML = participants.map((name, index) => `
         <li class="flex justify-between items-center">
             <span>${name}</span>
-            <button onclick="removeParticipant(${index})" class="text-red-600 hover:text-red-800">
-                Remove
-            </button>
+            <div class="space-x-2">
+                <button onclick="editParticipant(${index})" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600">
+                    Edit
+                </button>
+                <button onclick="removeParticipant(${index})" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">
+                    Remove
+                </button>
+            </div>
         </li>
     `).join('');
 }
@@ -49,6 +63,17 @@ addParticipantButton.addEventListener('click', () => {
         renderDcaTable();
     }
 });
+
+// Edit a participant's name
+function editParticipant(index) {
+    const newName = prompt('Enter the new name for this participant:');
+    if (newName) {
+        participants[index] = newName;
+        localStorage.setItem('participants', JSON.stringify(participants));
+        renderParticipants();
+        renderDcaTable();
+    }
+}
 
 // Remove a participant
 function removeParticipant(index) {
