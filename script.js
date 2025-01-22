@@ -1,19 +1,18 @@
 // Initialize participants and DCA data
-let participants = JSON.parse(localStorage.getItem('participants')) || ['Person 1', 'Person 2', 'Person 3', 'Person 4'];
+let participants = JSON.parse(localStorage.getItem('participants')) || ['Person 1', 'Jarryd Lang', 'Josh Wallace'];
 let dcaData = JSON.parse(localStorage.getItem('dcaData')) || {};
 
 // DOM Elements
 const participantList = document.getElementById('participant-list');
 const addParticipantButton = document.getElementById('add-participant');
 const dcaTableBody = document.getElementById('dca-table-body');
-const walletAddressInput = document.getElementById('wallet-address');
+const totalInvestedElement = document.getElementById('total-invested');
+const toggleParticipantsButton = document.getElementById('toggle-participants');
+const participantsSection = document.getElementById('participants-section');
 
-// Load saved wallet address
-walletAddressInput.value = localStorage.getItem('walletAddress') || '';
-
-// Save wallet address on input change
-walletAddressInput.addEventListener('input', () => {
-    localStorage.setItem('walletAddress', walletAddressInput.value);
+// Toggle participants section
+toggleParticipantsButton.addEventListener('click', () => {
+    participantsSection.classList.toggle('hidden');
 });
 
 // Render participants
@@ -89,6 +88,15 @@ function toggleContribution(month, participantIndex) {
     dcaData[month][participantIndex] = !dcaData[month][participantIndex];
     localStorage.setItem('dcaData', JSON.stringify(dcaData));
     renderDcaTable();
+    updateTotalInvested();
+}
+
+// Update total invested
+function updateTotalInvested() {
+    const totalClicks = Object.values(dcaData).reduce((sum, month) => {
+        return sum + Object.values(month).filter(Boolean).length;
+    }, 0);
+    totalInvestedElement.textContent = `$${totalClicks * 100} AUD`;
 }
 
 // Generate months between two dates
@@ -108,3 +116,4 @@ function generateMonths(start, end) {
 // Initial render
 renderParticipants();
 renderDcaTable();
+updateTotalInvested();
