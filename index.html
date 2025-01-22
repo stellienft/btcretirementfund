@@ -42,6 +42,16 @@
         .dark-mode .text-blue-600 {
             color: #63b3ed;
         }
+        .year-tab {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .year-tab.active {
+            background-color: #3b82f6;
+            color: white;
+        }
     </style>
 </head>
 <body class="dark-mode">
@@ -93,6 +103,11 @@
         <!-- DCA Table -->
         <section>
             <h2 class="text-2xl font-bold mb-4">DCA Table</h2>
+            <!-- Year Tabs -->
+            <div class="flex space-x-2 mb-4 overflow-x-auto">
+                <!-- Year tabs will be dynamically added here -->
+            </div>
+            <!-- Table -->
             <div class="overflow-x-auto bg-white rounded-lg shadow-md">
                 <table class="min-w-full">
                     <thead>
