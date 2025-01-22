@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexus Capital Retirement Fund</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         /* Custom gradient and animation */
         .gradient-bg {
@@ -52,19 +53,11 @@
             background-color: #3b82f6;
             color: white;
         }
-        .mobile-menu {
-            display: none;
-        }
-        @media (max-width: 768px) {
-            .mobile-menu {
-                display: block;
-            }
-            .desktop-menu {
-                display: none;
-            }
-            .business-name {
-                font-size: 1.25rem; /* Smaller font size for mobile */
-            }
+        .modern-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
     </style>
 </head>
@@ -73,24 +66,6 @@
     <nav class="gradient-bg text-white p-4 shadow-lg">
         <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-2xl font-bold business-name">Nexus Capital Retirement Fund</h1>
-            <!-- Desktop Menu -->
-            <div class="desktop-menu space-x-4">
-                <a href="https://coinstats.app/address/38r4YWLR7qnye7a86jgXx2cs6gZFtZGC65/" target="_blank" class="hover:text-blue-200">Coinstats</a>
-                <a href="https://portal.stellio.com.au/work/folders/fo_a33813a59525edfa12f1d68c" target="_blank" class="hover:text-blue-200">Portal</a>
-                <a href="https://t.me/NexusCapitalAU" target="_blank" class="hover:text-blue-200">Telegram</a>
-            </div>
-            <!-- Mobile Menu Toggle -->
-            <button id="mobile-menu-toggle" class="mobile-menu p-2 focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                </svg>
-            </button>
-        </div>
-        <!-- Mobile Menu Links -->
-        <div id="mobile-menu-links" class="mobile-menu hidden bg-blue-600 p-2">
-            <a href="https://coinstats.app/address/38r4YWLR7qnye7a86jgXx2cs6gZFtZGC65/" target="_blank" class="block p-2 hover:bg-blue-700">Coinstats</a>
-            <a href="https://portal.stellio.com.au/work/folders/fo_a33813a59525edfa12f1d68c" target="_blank" class="block p-2 hover:bg-blue-700">Portal</a>
-            <a href="https://t.me/NexusCapitalAU" target="_blank" class="block p-2 hover:bg-blue-700">Telegram</a>
         </div>
     </nav>
 
@@ -101,7 +76,7 @@
             <button id="toggle-participants" class="gradient-bg text-white px-4 py-2 rounded-lg hover-scale shadow-md">
                 Show/Hide Participants
             </button>
-            <div id="participants-section" class="bg-white p-6 rounded-lg shadow-md mt-4">
+            <div id="participants-section" class="modern-card bg-white p-6 rounded-lg shadow-md mt-4">
                 <h2 class="text-2xl font-bold mb-4">Participants</h2>
                 <ul id="participant-list" class="space-y-2">
                     <!-- Participants will be dynamically added here -->
@@ -115,16 +90,24 @@
         <!-- Analytics Section -->
         <section class="mb-8">
             <h2 class="text-2xl font-bold mb-4">Analytics</h2>
-            <div class="bg-white p-6 rounded-lg shadow-md grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="modern-card bg-white p-6 rounded-lg shadow-md grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <p class="text-lg">Total Invested:</p>
                     <p class="text-2xl font-bold text-blue-600" id="total-invested-aud">$0 AUD</p>
-                    <p class="text-2xl font-bold text-blue-600" id="total-invested-usd">$0 USD</p>
                 </div>
                 <div>
                     <p class="text-lg">Number of Members:</p>
                     <p class="text-2xl font-bold text-blue-600" id="number-of-members">0</p>
                 </div>
+            </div>
+        </section>
+
+        <!-- USD Price Section -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">USD Conversion</h2>
+            <div class="modern-card bg-white p-6 rounded-lg shadow-md">
+                <p class="text-lg">Total Invested in USD:</p>
+                <p class="text-2xl font-bold text-blue-600" id="total-invested-usd">$0 USD</p>
             </div>
         </section>
 
@@ -136,7 +119,7 @@
                 <!-- Year tabs will be dynamically added here -->
             </div>
             <!-- Table -->
-            <div class="overflow-x-auto bg-white rounded-lg shadow-md">
+            <div class="overflow-x-auto modern-card bg-white rounded-lg shadow-md">
                 <table class="min-w-full">
                     <thead>
                         <tr class="gradient-bg text-white">
@@ -151,6 +134,21 @@
             </div>
         </section>
     </main>
+
+    <!-- Footer with Icons -->
+    <footer class="gradient-bg text-white p-4 mt-8">
+        <div class="container mx-auto flex justify-center space-x-6">
+            <a href="https://coinstats.app/address/38r4YWLR7qnye7a86jgXx2cs6gZFtZGC65/" target="_blank" class="hover:text-blue-200">
+                <i class="fas fa-chart-line text-2xl"></i>
+            </a>
+            <a href="https://portal.stellio.com.au/work/folders/fo_a33813a59525edfa12f1d68c" target="_blank" class="hover:text-blue-200">
+                <i class="fas fa-folder-open text-2xl"></i>
+            </a>
+            <a href="https://t.me/NexusCapitalAU" target="_blank" class="hover:text-blue-200">
+                <i class="fab fa-telegram text-2xl"></i>
+            </a>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
