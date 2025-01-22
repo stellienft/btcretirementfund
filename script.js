@@ -1,12 +1,13 @@
 // Initialize participants and DCA data
-let participants = JSON.parse(localStorage.getItem('participants')) || ['Person 1', 'Jarryd Lang', 'Josh Wallace'];
+let participants = JSON.parse(localStorage.getItem('participants')) || ['Stellio Koutsis', 'Jarryd Lang', 'Josh Wallace', 'Ivan Vantagiato', 'Scott McManus'];
 let dcaData = JSON.parse(localStorage.getItem('dcaData')) || {};
 
 // DOM Elements
 const participantList = document.getElementById('participant-list');
 const addParticipantButton = document.getElementById('add-participant');
 const dcaTableBody = document.getElementById('dca-table-body');
-const totalInvestedElement = document.getElementById('total-invested');
+const totalInvestedAudElement = document.getElementById('total-invested-aud');
+const totalInvestedUsdElement = document.getElementById('total-invested-usd');
 const numberOfMembersElement = document.getElementById('number-of-members');
 const toggleParticipantsButton = document.getElementById('toggle-participants');
 const participantsSection = document.getElementById('participants-section');
@@ -147,7 +148,10 @@ function updateTotalInvested() {
     const totalClicks = Object.values(dcaData).reduce((sum, month) => {
         return sum + Object.values(month).filter(Boolean).length;
     }, 0);
-    totalInvestedElement.textContent = `$${totalClicks * 100} AUD`;
+    const totalInvestedAud = totalClicks * 100; // Assuming $100 AUD per contribution
+    const totalInvestedUsd = totalInvestedAud * 0.67; // Convert AUD to USD (example rate)
+    totalInvestedAudElement.textContent = `$${totalInvestedAud} AUD`;
+    totalInvestedUsdElement.textContent = `$${totalInvestedUsd.toFixed(2)} USD`;
 }
 
 // Generate months between two dates
