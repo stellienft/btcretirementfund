@@ -1,5 +1,5 @@
 // Initialize participants and DCA data
-let participants = JSON.parse(localStorage.getItem('participants')) || ['Stellio Koutsis', 'Jarryd Lang', 'Josh Wallace'];
+let participants = JSON.parse(localStorage.getItem('participants')) || ['Person 1', 'Jarryd Lang', 'Josh Wallace'];
 let dcaData = JSON.parse(localStorage.getItem('dcaData')) || {};
 
 // DOM Elements
@@ -42,6 +42,15 @@ function renderParticipants() {
     `).join('');
 }
 
+// Shorten name for mobile (first name + last initial)
+function shortenName(name) {
+    const isMobile = window.innerWidth <= 768; // Check if mobile
+    if (!isMobile) return name; // Return full name for desktop
+
+    const [firstName, lastName] = name.split(' ');
+    return lastName ? `${firstName} ${lastName.charAt(0)}.` : firstName;
+}
+
 // Render DCA table
 function renderDcaTable() {
     const months = generateMonths('January 2025', 'January 2035');
@@ -54,7 +63,7 @@ function renderDcaTable() {
                         onclick="toggleContribution('${month}', ${participantIndex})"
                         class="w-full py-1 rounded-lg ${dcaData[month]?.[participantIndex] ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'} hover-scale"
                     >
-                        ${name}
+                        ${shortenName(name)}
                     </button>
                 </td>
             `).join('')}
@@ -130,3 +139,8 @@ renderParticipants();
 renderDcaTable();
 updateTotalInvested();
 updateNumberOfMembers();
+
+// Re-render table on window resize (for responsive name shortening)
+window.addEventListener('resize', () => {
+    renderDcaTable();
+});
